@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Futshop</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <h1 class="logo">Futshop</h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'main:show_main' %}">Home</a></li>
+                    <li><a href="{% url 'main:show_products' %}">Products</a></li>
+                    <li><a href="{% url 'main:show_about' %}">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="about-hero">
+            <div class="container">
+                <h3>About Futshop</h3>
+                <div class="about-content">
+                    <p>Welcome to Futshop, the ultimate destination for football fans. Our journey began with a simple passion for the beautiful game and a desire to bring authentic, high-quality gear to supporters and players alike.</p>
+                    <p>We believe that every fan deserves to wear their club's colors with pride. That's why we source the best jerseys, boots, and equipment, ensuring every product we sell is a testament to the quality and spirit of the sport. Thank you for being part of our story.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
