@@ -24,7 +24,7 @@ DEBUG = not PRODUCTION  # Auto-set DEBUG based on production status
 ALLOWED_HOSTS = [
     "localhost", 
     "127.0.0.1", 
-    "hillary-elizabeth-futshop.pbp.cs.ui.ac.id"  # REMOVED https://
+    "hillary-elizabeth-futshop.pbp.cs.ui.ac.id", 
 ]
 
 # Application definition
