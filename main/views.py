@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Product
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
@@ -30,7 +30,19 @@ def product_detail(request, pk):
     return render(request, 'product_detail.html', context)
 
 def add_product(request):
-    form = ProductForm()
+    # This part handles the submitted form data
+    if request.method == "POST":
+        form = ProductForm(request.POST) 
+        
+        # Here is the validation check!
+        if form.is_valid():
+            form.save() # Saves to the database only if data is valid
+            return redirect('main:show_products')
+    
+    # This part shows a blank form for a new request
+    else:
+        form = ProductForm()
+    
     context = {'form': form}
     return render(request, 'add_product.html', context)
 
