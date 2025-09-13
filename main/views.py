@@ -30,16 +30,13 @@ def product_detail(request, pk):
     return render(request, 'product_detail.html', context)
 
 def add_product(request):
-    # This part handles the submitted form data
     if request.method == "POST":
         form = ProductForm(request.POST) 
-        
-        # Here is the validation check!
+
         if form.is_valid():
-            form.save() # Saves to the database only if data is valid
+            form.save()
             return redirect('main:show_products')
-    
-    # This part shows a blank form for a new request
+
     else:
         form = ProductForm()
     
