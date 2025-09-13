@@ -28,7 +28,7 @@ ALLOWED_HOSTS = [
     "hillary-elizabeth-futshop.pbp.cs.ui.ac.id", 
 ]
 
-CSRF_TRUSTED_ORIGINS = ["https://pbp.cs.ui.ac.id/hillary.elizabeth/futshop"]
+CSRF_TRUSTED_ORIGINS = ['https://hillary-elizabeth-futshop.pbp.cs.ui.ac.id']
 
 DEBUG = True
 
