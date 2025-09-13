@@ -1,8 +1,6 @@
 from django.db import migrations
 
-def create_initial_products(apps):
-    # We can't import the models directly as they may be a newer
-    # version than this migration expects. We use the historical version.
+def create_initial_products(apps, schema_editor):
     Brand = apps.get_model('main', 'Brand')
     Product = apps.get_model('main', 'Product')
 
