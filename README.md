@@ -1,4 +1,4 @@
-**PERTANYAAN**
+**Pertanyaan Tugas 2**
 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 2. Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
 3. Jelaskan peran settings.py dalam proyek Django!
@@ -6,7 +6,7 @@
 5. Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
 6. Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
 
-JAWABAN
+**Jawaban Tugas 2**
 1. Cara saya mengimplementasikan checklist diatas adalah sebagai berikut:
     1. Membuat repository lokal
     2. Membuat repository github
@@ -23,7 +23,8 @@ JAWABAN
     13. Membuat komponen penata css untuk menambahkan value estetika website (tidak bisa dilihat dari deployed site, harus run local untuk melihatnya)
     14. Menjalankan seluruh aplikasi menggunakan command python manage.py runserver
 
-2. Bagan dapat dilihat di /Bagan_Request.PNG
+2. Berikut bagan yang diminta:
+![Bagan request](/assets/Bagan_Request.png)
 
 3. Berkas settings.py berfungsi sebagai pusat kendali utama untuk sebuah proyek Django, di mana semua konfigurasi fundamental didefinisikan. Di dalam berkas ini, pengembang mendaftarkan semua aplikasi yang aktif melalui INSTALLED_APPS, mengatur koneksi ke database dalam DATABASES, menyimpan kunci keamanan esensial seperti SECRET_KEY, dan mengontrol mode pengembangan dengan DEBUG. Secara esensial, berkas ini adalah "konstitusi" proyek yang menentukan bagaimana semua bagian dari aplikasi saling terhubung dan beroperasi, menjadikannya fondasi bagi seluruh fungsionalitas dan keamanan aplikasi.
 
@@ -32,3 +33,21 @@ JAWABAN
 5. Menurut saya, Django adalah framework permulaan yang ideal karena Django menyediakan semua fitur esensial seperti admin panel dan sistem autentikasi secara bawaan. Strukturnya yang terarah dengan pola Model-View-Template (MVT) juga membimbing pemula untuk menulis kode yang terorganisir, sementara ORM-nya menyederhanakan interaksi database tanpa perlu SQL mentah dan fitur keamanannya melindungi dari ancaman umum. Kombinasi ini memungkinkan pemula untuk fokus pada logika aplikasi dan membangun proyek yang fungsional dengan cepat sambil mempelajari praktik terbaik dalam pengembangan perangkat lunak.
 
 6. Tidak ada, asdos bekerja dengan sangat baik dan melayani semua permintaan mahasiswa dengan baik.
+
+<br>**Pertanyaan Tugas 3**
+
+1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+ 
+2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+ 
+3. Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+
+4. Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+ 
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+6. Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
+
+**Jawaban Tugas 3**
+
+1. 

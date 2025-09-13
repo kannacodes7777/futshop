@@ -30,6 +30,8 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = ["https://pbp.cs.ui.ac.id/hillary.elizabeth/futshop"]
 
+DEBUG = True
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
