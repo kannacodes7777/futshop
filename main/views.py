@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.core import serializers
 from .forms import ProductForm
 
+# Show ke main pages untuk tambahan object
 def show_main(request):
     products = Product.objects.filter(is_featured=True) 
     context = {
