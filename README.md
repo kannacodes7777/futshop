@@ -102,3 +102,85 @@ Meskipun XML memiliki fungsionalitas yang lebih kompleks seperti skema (XSD) dan
 
 
 **Jawaban Tugas 4**
+
+1. Django AuthenticationForm adalah sebuah kelas Form bawaan dari Django (django.contrib.auth.forms) yang dirancang khusus untuk satu tugas: mengautentikasi pengguna. Form ini secara default meminta dua input: username dan password.
+Fungsi utamanya adalah memvalidasi kredensial yang dimasukkan oleh pengguna. Ketika Anda memanggil form.is_valid(), AuthenticationForm akan melakukan beberapa pemeriksaan:
+   1. Apakah username dan password diisi?
+   2. Apakah ada pengguna dengan username tersebut di database?
+   3. Apakah password yang dimasukkan cocok dengan password pengguna tersebut?
+   4. Apakah akun pengguna tersebut aktif (is_active flag)?
+   Jika semua validasi berhasil, kita bisa mendapatkan objek user yang terautentikasi dengan memanggil form.get_user().
+   
+   Kelebihan:
+
+   a. Keamanan Bawaan: Sudah teruji dan menangani berbagai aspek keamanan secara otomatis, seperti proteksi terhadap timing attacks.
+
+   b. Validasi Lengkap: Melakukan semua validasi yang diperlukan untuk login dalam satu panggilan .is_valid().
+
+   c. Terintegrasi: Bekerja mulus dengan sistem autentikasi Django lainnya seperti fungsi login() dan authenticate().
+   
+   Kekurangan:
+
+   a. Kurang Fleksibel: Secara default hanya menerima username.
+
+   b. Tampilan Standar: Tampilan HTML yang dihasilkan standar.
+
+2. Dalam sistem keamanan web, Autentikasi adalah proses verifikasi identitas pengguna, yang biasanya dimulai saat seseorang memasukkan data sensitif seperti username dan password untuk dicocokkan dengan yang ada di database. Untuk memastikan keamanan tingkat lanjut, proses ini seringkali diikuti oleh tahap verifikasi kedua, sebuah konsep yang yang dikenal sebagai Autentikasi Multi-Faktor (MFA), di mana sistem mengkonfirmasi kebenaran identitas pengguna melalui perangkat terdaftar atau email. Langkah tambahan ini memastikan bahwa meskipun kredensial utama dicuri, akses tidak sah tetap dapat dicegah. Setelah identitas pengguna berhasil diverifikasi sepenuhnya melalui proses autentikasi ini, barulah Otorisasi berperan, yaitu proses di mana sistem menentukan izin atau hak akses yang dimiliki oleh pengguna yang sudah terverifikasi tersebut, seperti apakah ia boleh mengakses data sensitif atau hanya halaman publik.
+
+3. Kelebihan dan kekurangan cookies dan session:
+
+   a. Cookies
+      Kelebihan: Server tidak perlu menyimpan data, sehingga mengurangi beban. Ini bagus untuk skalabilitas.
+      Kekurangan: Tidak aman untuk data sensitif karena disimpan di sisi klien dan bisa dibaca/diubah. Ukurannya sangat terbatas (sekitar 4KB).
+
+   b. Session
+      Kelebihan: Jauh lebih aman karena data sensitif tetap berada di server. Tidak ada batasan ukuran praktis.
+      Kekurangan: Membutuhkan sumber daya (penyimpanan dan proses) di server untuk setiap pengguna aktif.
+
+4a. Secara umum, penggunaan cookies tidak aman untuk secara default dalam pengembangan web. Hal ini disebabkan beberapa kekurangan cookie yang dapat dimanfaatkan oknum jahat:
+
+   a. Pencurian (Hijacking): Jika tidak melalui koneksi HTTPS, pihak ketiga bisa "menguping" dan mencuri cookie.
+
+   b. XSS (Cross-Site Scripting): Penyerang bisa menyuntikkan skrip di browser Anda untuk mencuri cookie.
+
+   c. CSRF (Cross-Site Request Forgery): Penyerang menipu Anda untuk melakukan tindakan di situs lain saat Anda sedang login.
+
+4b. Cara Django menangani risiko tersebut adalah dengan menyediakan fitur-fitur keamanan sebagai berikut:
+
+   a. CSRF Protection: Django memiliki perlindungan CSRF yang aktif secara default. Token {% csrf_token %} di dalam form memastikan bahwa request POST hanya datang dari situs Anda sendiri, bukan dari situs lain.
+
+   b. HttpOnly Cookies: Django secara default mengatur session cookie sebagai HttpOnly. Ini berarti cookie tersebut tidak bisa diakses oleh JavaScript di sisi browser, yang secara drastis mengurangi risiko pencurian cookie melalui serangan XSS.
+
+   c. Signed Cookies: Session ID yang disimpan di cookie ditandatangani secara kriptografis. Jika pengguna mencoba mengubah Session ID di cookie mereka, tanda tangannya tidak akan cocok, dan Django akan menolak sesi tersebut.
+
+   d. Opsi Secure: Django menyediakan pengaturan (SESSION_COOKIE_SECURE = True) yang memastikan cookie hanya dikirim melalui koneksi HTTPS, mencegah pengupingan.
+
+
+5.  Implementasi Step-by-Step (Sesuai Checklist)
+   
+      a. Menghubungkan Model Product dengan User:
+
+         1. Langkah pertama dan paling fundamental adalah mengedit main/models.py.
+         2. Saya kemudian menambahkan user = models.ForeignKey(User, on_delete=models.CASCADE) ke dalam model Product. Ini menciptakan hubungan di mana setiap produk dimiliki oleh satu pengguna.
+         3. Setelah mengubah model, saya menjalankan python manage.py makemigrations untuk membuat file migrasi dan python manage.py migrate untuk menerapkan perubahan ini ke database.
+
+   b. Mengimplementasikan Registrasi, Login, dan Logout:
+   
+      1. Saya membuat tiga URL di urls.py untuk /register, /login, dan /logout yang menunjuk ke tiga view baru.
+
+      2. Pada views.py, saya membuat register, login_user, dan logout_user.
+
+      3. Untuk halaman yang memerlukan login (seperti halaman utama), saya menambahkan decorator @login_required di atas fungsi view show_main.
+
+   c. Menampilkan Username: Di base.html, saya menambahkan blok {% if user.is_authenticated %} di dalam navbar. Di dalamnya, saya menampilkan {{ user.username }}.
+
+   d. Implementasi Cookies:
+   
+      1. Di view login_user, setelah login(request, user) berhasil, saya membuat respons redirect.
+      2. Saya mengatur cookie pada respons tersebut: response.set_cookie('last_login', formatted_time).
+      3. Di view logout_user, saya menghapus cookie: response.delete_cookie('last_login').
+      4. Untuk menampilkannya di header (base.html), cara terbaik adalah dengan Context Processor. Saya membuat file main/context_processors.py, membuat fungsi yang membaca request.COOKIES.get('last_login'), dan mendaftarkannya di settings.py. Ini membuat variabel cookie tersedia di semua template, sehingga saya bisa menampilkannya di base.html.
+
+6. Menambahkan 2 user dan masing-masing user mempunyai 3 data dummy dengan bukti screenshoot:
+   1. ![User1](/assets/User1.png)
+   2. ![Get XML](/assets/User2.png)
