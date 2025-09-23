@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}{{ product.name }} - Futshop{% endblock title %}
 
 {% block extra_styles %}
@@ -79,6 +78,7 @@
                         <p><strong>Category:</strong> {{ product.category }}</p>
                         <p><strong>Stock:</strong> {{ product.stock }}</p>
                         <p><strong>Rating:</strong> {{ product.rating }} / 5.0</p>
+                        <p><strong>Added by:</strong> {{ product.user.username }}</p>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
+from django.contrib.auth.models import User
 
 BRAND_CHOICES = [('nikey', 'Nikey'), ('adidas', 'Adidas'), ('puma', 'Puma'), ('reebok', 'Reebok')]
 CATEGORY_CHOICES = [('topwear', 'Topwear'), ('bottomwear', 'Bottomwear'), ('shoes', 'Shoes'), ('accessories', 'Accessories')]
@@ -18,6 +19,7 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField()
     price = models.IntegerField()
     description = models.TextField()

@@ -90,3 +90,15 @@ Meskipun XML memiliki fungsionalitas yang lebih kompleks seperti skema (XSD) dan
    2. ![Get XML](/assets/Get_XML.png)
    3. ![Get JSON by Id](/assets/Get_JSON_ById.png)
    4. ![Get XML by Id](/assets/Get_XML_ById.png)
+
+
+**Pertanyaan Tugas 4**
+
+1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
+2. Apa perbedaan antara autentikasi dan otorisasi? Bagaiamana Django mengimplementasikan kedua konsep tersebut?
+3. Apa saja kelebihan dan kekurangan session dan cookies dalam konteks menyimpan state di aplikasi web?
+4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+
+**Jawaban Tugas 4**

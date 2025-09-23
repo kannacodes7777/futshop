@@ -182,3 +182,234 @@ body {
     line-height: 1.8;
     margin-bottom: 20px;
 }
+
+.register-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+    margin: 20px;
+}
+
+.register-container h1 {
+    font-family: 'Archivo Black', sans-serif;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.register-container form table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.register-container form th,
+.register-container form td {
+    padding: 8px 0;
+    vertical-align: top;
+}
+
+.register-container form th {
+    text-align: left;
+    font-weight: 500;
+    color: #555;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+.register-container form input[type="text"],
+.register-container form input[type="email"],
+.register-container form input[type="password"],
+.register-container form input[type="number"],
+.register-container form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.register-container form input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.register-container .btn-primary {
+    width: 100%;
+    margin-top: 15px;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.messages {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 25px;
+}
+
+.messages li {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+}
+
+.messages li.success {
+    background-color: #4CAF50;
+}
+
+.messages li.error {
+    background-color: #d9534f;
+}
+
+.messages li.info {
+    background-color: #5bc0de;
+}
+
+.messages li.warning {
+    background-color: #f0ad4e;
+}
+
+.login-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 450px;
+    width: 100%;
+    margin: 20px;
+}
+
+.login-container h1 {
+    font-family: 'Archivo Black', sans-serif;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.login-container form table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.login-container form th,
+.login-container form td {
+    padding: 8px 0;
+    vertical-align: top;
+}
+
+.login-container form th {
+    text-align: left;
+    font-weight: 500;
+    color: #555;
+    padding-bottom: 15px;
+}
+
+.login-container form input[type="text"],
+.login-container form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.login-container form input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.login-container .btn-primary {
+    width: 100%;
+    margin-top: 15px;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 25px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.register-link a {
+    color: #4CAF50;
+    font-weight: bold;
+    text-decoration: none;
+    transition: text-decoration 0.3s;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.nav-username {
+    color: #f4f4f4;
+    font-weight: 500;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.btn-primary-nav {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.btn-primary-nav:hover {
+    background-color: #45a049;
+    color: #fff;
+}
+
+.btn-logout {
+    background-color: #c94c4c;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #b84444;
+    color: #fff;
+}
+
+.nav-last-login {
+    color: #ccc;
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.product-info .details .product-author {
+    font-size: 1rem;
+    font-style: italic;
+    color: #888;
+}
+
+
+.centered-form-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 0;
+}

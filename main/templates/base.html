@@ -21,8 +21,25 @@
             <nav>
                 <ul>
                     <li><a href="{% url 'main:show_main' %}">Home</a></li>
-                    <li><a href="{% url 'main:show_products' %}">Products</a></li>
+                    <li><a href="{% url 'main:show_products' %}">My Products</a></li>
                     <li><a href="{% url 'main:show_about' %}">About</a></li>
+
+                    {% if user.is_authenticated %}
+                        <li><span class="nav-username">Hi, {{ user.username }}</span></li>
+                        
+                        <li><h5 class="nav-last-login">Last login: {{ last_login }}</h5></li>
+
+                        <li>
+                            <a href="{% url 'main:logout' %}" class="btn-logout">Logout</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'main:login' %}">Login</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'main:register' %}" class="btn-primary-nav">Register</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -34,7 +51,7 @@
     </main>
 
     <footer>
-        </footer>
+    </footer>
 </body>
 
 </html>
