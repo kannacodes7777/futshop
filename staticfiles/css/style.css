@@ -1,0 +1,102 @@
+.user-info {
+    text-align: right;
+}
+
+.user-info .username {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff !important;
+    margin: 0;
+}
+
+.user-info .details {
+    font-size: 0.75rem;
+    color: #cccccc !important;
+    margin: 0;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-button {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.hamburger-icon span {
+    display: block;
+    background-color: currentColor;
+    height: 2px;
+    width: 1.5rem;
+    margin: 4px 0;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    display: none;
+    background-color: #1a1a1a !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-menu-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mobile-menu a {
+    color: #ffffff !important;
+    padding: 1rem;
+    text-decoration: none;
+    display: block;
+}
+
+/* Buttons */
+.btn-logout {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-register {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Desktop View */
+@media (min-width: 768px) {
+    .nav-links {
+        display: flex !important;
+    }
+    .user-section {
+        display: flex !important;
+    }
+    .mobile-menu-button {
+        display: none !important;
+    }
+}
+
+/* Body Spacing */
+body {
+    padding-top: 80px !important;
+    margin: 0 !important;
+}
