@@ -1,415 +1,102 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.user-info {
+    text-align: right;
 }
 
-body {
-    font-family: 'Outfit', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.navbar {
-    background-color: #1a1a1a;
-    color: #fff;
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar .logo {
-    font-family: 'Archivo Black', sans-serif;
-    font-weight: 700;
-}
-
-.navbar nav ul {
-    list-style: none;
-    display: flex;
-}
-
-.navbar nav ul li {
-    margin-left: 20px;
-}
-
-.navbar a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.navbar a:hover {
-    color: #4CAF50;
-}
-
-.hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/stadium.jpeg') no-repeat center center/cover;
-    color: #fff;
-    text-align: center;
-    padding: 100px 0;
-}
-
-.hero h2 {
-    font-family: 'Archivo Black', sans-serif;
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-}
-
-.btn-primary {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 12px 25px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.btn-primary:hover {
-    background-color: #45a049;
-}
-
-.featured-products {
-    padding: 60px 0;
-}
-
-.featured-products h3 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 40px;
-    font-family: 'Archivo Black', sans-serif;
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-.product-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    padding-bottom: 20px;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.product-card h4 {
-    font-family: 'Archivo Black', sans-serif;
-    margin: 15px 0 5px;
-}
-
-.product-card .category {
-    color: #777;
+.user-info .username {
     font-size: 0.9rem;
-    margin-bottom: 10px;
+    font-weight: 600;
+    color: #ffffff !important;
+    margin: 0;
 }
 
-.product-card .price {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #4CAF50;
-    margin-bottom: 15px;
+.user-info .details {
+    font-size: 0.75rem;
+    color: #cccccc !important;
+    margin: 0;
 }
 
-.btn-secondary {
-    background-color: #333;
+/* Mobile Menu Button */
+.mobile-menu-button {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.hamburger-icon span {
+    display: block;
+    background-color: currentColor;
+    height: 2px;
+    width: 1.5rem;
+    margin: 4px 0;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    display: none;
+    background-color: #1a1a1a !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-menu-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mobile-menu a {
+    color: #ffffff !important;
+    padding: 1rem;
+    text-decoration: none;
+    display: block;
+}
+
+/* Buttons */
+.btn-logout {
+    background-color: #dc3545;
     color: #fff;
     padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
     text-decoration: none;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
 }
 
-.btn-secondary:hover {
-    background-color: #555;
-}
-
-.about-hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/aboutUs.jpg') no-repeat center center/cover;
-    color: #fff;
-    padding: 130px 0;
-    text-align: center;
-}
-
-.about-hero h3 {
-    font-family: 'Archivo Black', sans-serif;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-}
-
-.about-hero .about-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.about-hero p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin-bottom: 20px;
-}
-
-.register-container {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    max-width: 500px;
-    width: 100%;
-    margin: 20px;
-}
-
-.register-container h1 {
-    font-family: 'Archivo Black', sans-serif;
-    text-align: center;
-    margin-bottom: 30px;
-    color: #333;
-}
-
-.register-container form table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.register-container form th,
-.register-container form td {
-    padding: 8px 0;
-    vertical-align: top;
-}
-
-.register-container form th {
-    text-align: left;
-    font-weight: 500;
-    color: #555;
-    padding-right: 15px;
-    padding-bottom: 15px;
-}
-
-.register-container form input[type="text"],
-.register-container form input[type="email"],
-.register-container form input[type="password"],
-.register-container form input[type="number"],
-.register-container form select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.register-container form input:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-}
-
-.register-container .btn-primary {
-    width: 100%;
-    margin-top: 15px;
-    padding: 15px;
-    font-size: 1.1rem;
-}
-
-.messages {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 25px;
-}
-
-.messages li {
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    color: #fff;
-    text-align: center;
-}
-
-.messages li.success {
-    background-color: #4CAF50;
-}
-
-.messages li.error {
-    background-color: #d9534f;
-}
-
-.messages li.info {
-    background-color: #5bc0de;
-}
-
-.messages li.warning {
-    background-color: #f0ad4e;
-}
-
-.login-container {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    max-width: 450px;
-    width: 100%;
-    margin: 20px;
-}
-
-.login-container h1 {
-    font-family: 'Archivo Black', sans-serif;
-    text-align: center;
-    margin-bottom: 30px;
-    color: #333;
-}
-
-.login-container form table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.login-container form th,
-.login-container form td {
-    padding: 8px 0;
-    vertical-align: top;
-}
-
-.login-container form th {
-    text-align: left;
-    font-weight: 500;
-    color: #555;
-    padding-bottom: 15px;
-}
-
-.login-container form input[type="text"],
-.login-container form input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.login-container form input:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-}
-
-.login-container .btn-primary {
-    width: 100%;
-    margin-top: 15px;
-    padding: 15px;
-    font-size: 1.1rem;
-}
-
-.register-link {
-    text-align: center;
-    margin-top: 25px;
-    color: #555;
-    font-size: 0.95rem;
-}
-
-.register-link a {
-    color: #4CAF50;
-    font-weight: bold;
-    text-decoration: none;
-    transition: text-decoration 0.3s;
-}
-
-.register-link a:hover {
-    text-decoration: underline;
-}
-
-.nav-username {
-    color: #f4f4f4;
-    font-weight: 500;
-    margin-right: 15px;
-    display: flex;
-    align-items: center;
-}
-
-.btn-primary-nav {
+.btn-register {
     background-color: #4CAF50;
     color: #fff;
-    padding: 8px 18px;
-    border-radius: 5px;
-    font-weight: 500;
-    transition: background-color 0.3s;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
 }
 
-.btn-primary-nav:hover {
-    background-color: #45a049;
-    color: #fff;
+/* Desktop View */
+@media (min-width: 768px) {
+    .nav-links {
+        display: flex !important;
+    }
+    .user-section {
+        display: flex !important;
+    }
+    .mobile-menu-button {
+        display: none !important;
+    }
 }
 
-.btn-logout {
-    background-color: #c94c4c;
-    color: #fff;
-    padding: 8px 18px;
-    border-radius: 5px;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-
-.btn-logout:hover {
-    background-color: #b84444;
-    color: #fff;
-}
-
-.nav-last-login {
-    color: #ccc;
-    font-size: 0.75rem;
-    font-weight: 400;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-}
-
-.product-info .details .product-author {
-    font-size: 1rem;
-    font-style: italic;
-    color: #888;
-}
-
-
-.centered-form-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px 0;
+/* Body Spacing */
+body {
+    padding-top: 80px !important;
+    margin: 0 !important;
 }

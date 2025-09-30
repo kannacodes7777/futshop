@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Futshop{% endblock title %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+    
+    {% block extra_styles %}
+    {% endblock extra_styles %}
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    <footer>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('active');
+                });
+                
+                // Close when clicking outside
+                document.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                });
+                
+                // Prevent closing when clicking inside menu
+                mobileMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,34 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Futshop - Your Football Store{% endblock title %}
 
 {% block content %}
+{% include 'navbar.html' %}
 
-    <section class="hero">
-        <div class="container">
-            <h2>The Best Gear for The Best Game</h2>
-            <p>Find authentic jerseys, boots, and equipment from your favorite clubs.</p>
-            <a href="#" class="btn-primary">Shop Now</a>
+<section class="hero">
+    <div class="container">
+        <h2>The Best Gear for The Best Game</h2>
+        <p>Find authentic jerseys, boots, and equipment from your favorite clubs.</p>
+        <a href="#" class="btn-primary">Shop Now</a>
+    </div>
+</section>
+
+<section class="featured-products">
+    <div class="container">
+        <h3>All Featured Products</h3>
+        <div class="product-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    <img src="{{ product.thumbnail }}" alt="{{ product.name }}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/222/FFF?text=Image';">
+                    <h4>{{ product.name }}</h4>
+                    <p class="category">{{ product.category }}</p>
+                    <p class="price">IDR {{ product.price }}</p>
+                    <a href="{% url 'main:product_detail' pk=product.pk %}" class="btn-secondary">View Details</a>
+                </div>
+            {% endfor %}
         </div>
-    </section>
-
-    <section class="featured-products">
-        <div class="container">
-            <h3>All Featured Products</h3>
-            <div class="product-grid">
-                {% for product in products %}
-                
-                    <div class="product-card">
-                        <img src="{{ product.thumbnail }}" alt="{{ product.name }}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/222/FFF?text=Image';">
-                        <h4>{{ product.name }}</h4>
-                        <p class="category">{{ product.category }}</p>
-                        <p class="price">IDR {{ product.price }}</p>
-                        <a href="{% url 'main:product_detail' pk=product.pk %}" class="btn-secondary">View Details</a>
-                    </div>
-
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
+    </div>
+</section>
 {% endblock content %}
