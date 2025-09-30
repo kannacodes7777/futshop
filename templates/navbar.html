@@ -1,90 +1,189 @@
-<nav class="navbar" style="position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: black; display: flex; align-items: center; z-index: 9999;">
-  <div class="navbar-container" style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
-      <!-- Left -->
-      <div class="navbar-brand" style="flex: 1; display: flex; justify-content: flex-start;">
-          <h1 style="color: white; margin: 0;"><a href="{% url 'main:show_main' %}" style="color: white; text-decoration: none;">Futshop</a></h1>
-      </div>
-      
-      <div class="nav-links" style="flex: 2; display: none; justify-content: center; align-items: center; gap: 3rem;">
-          <a href="{% url 'main:show_main' %}" style="color: white; text-decoration: none; font-weight: 600;">Home</a>
-          <a href="{% url 'main:show_products' %}" style="color: white; text-decoration: none; font-weight: 600;">My Products</a>
-          <a href="{% url 'main:show_about' %}" style="color: white; text-decoration: none; font-weight: 600;">About</a>
-      </div>
-      
-      <div class="user-section" style="flex: 1; display: none; justify-content: flex-end; align-items: center; gap: 1.5rem;">
-          {% if user.is_authenticated %}
-              <div style="text-align: right;">
-                  <div style="color: white; font-weight: 600; font-size: 0.9rem;">Hi, {{ user.username }}</div>
-                  <div style="color: #ccc; font-size: 0.75rem;">Last login: {{ last_login }}</div>
-              </div>
-              <a href="{% url 'main:logout' %}" style="background: #dc3545; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 600;">Logout</a>
-          {% else %}
-              <a href="{% url 'main:login' %}" style="color: white; text-decoration: none; font-weight: 500;">Login</a>
-              <a href="{% url 'main:register' %}" style="background: #4CAF50; color: white; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-weight: 600;">Register</a>
-          {% endif %}
-      </div>
-      
-      <!-- CHANGED: Added mobile-menu-button class and removed inline display -->
-      <div class="mobile-menu-button" style="display: flex; align-items: center; color: white; cursor: pointer; padding: 8px;">
-          <div class="hamburger-icon">
-              <span style="display: block; background: white; height: 2px; width: 1.5rem; margin: 4px 0;"></span>
-              <span style="display: block; background: white; height: 2px; width: 1.5rem; margin: 4px 0;"></span>
-              <span style="display: block; background: white; height: 2px; width: 1.5rem; margin: 4px 0;"></span>
-          </div>
-      </div>
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Left: Brand -->
+    <div class="navbar-brand">
+      <h1><a href="{% url 'main:show_main' %}">Futshop</a></h1>
+    </div>
+
+    <!-- Center: Desktop links -->
+    <div class="nav-links">
+      <a href="{% url 'main:show_main' %}">Home</a>
+      <a href="{% url 'main:show_products' %}">My Products</a>
+      <a href="{% url 'main:show_about' %}">About</a>
+    </div>
+
+    <!-- Right: User section -->
+    <div class="user-section">
+      {% if user.is_authenticated %}
+        <div>
+          <div>Hi, {{ user.username }}</div>
+          <div>Last login: {{ last_login }}</div>
+        </div>
+        <a href="{% url 'main:logout' %}" class="logout-btn">Logout</a>
+      {% else %}
+        <a href="{% url 'main:login' %}" class="login-btn">Login</a>
+        <a href="{% url 'main:register' %}" class="register-btn">Register</a>
+      {% endif %}
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <div class="mobile-menu-button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
-  
-  <!-- CHANGED: Added mobile-menu class and hidden class -->
-  <div class="mobile-menu hidden" style="background: #1a1a1a; position: fixed; top: 70px; left: 0; width: 100%; height: calc(100vh - 70px); z-index: 10000; overflow-y: auto;">
-      <div class="mobile-menu-content" style="padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
-          <a href="{% url 'main:show_main' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid #333;">Home</a>
-          <a href="{% url 'main:show_products' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid #333;">My Products</a>
-          <a href="{% url 'main:show_about' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid #333;">About</a>
-          
-          <div style="border-top: 2px solid #333; padding-top: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
-              {% if user.is_authenticated %}
-                  <div style="text-align: center;">
-                      <div style="color: white; font-weight: 600; font-size: 1.1rem;">Hi, {{ user.username }}</div>
-                      <div style="color: #ccc; font-size: 0.9rem; margin-top: 0.5rem;">Last login: {{ last_login }}</div>
-                  </div>
-                  <a href="{% url 'main:logout' %}" style="background: #dc3545; color: white; padding: 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; font-size: 1.1rem;">Logout</a>
-              {% else %}
-                  <a href="{% url 'main:login' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600; font-size: 1.1rem; text-align: center; border: 1px solid #555; border-radius: 6px;">Login</a>
-                  <a href="{% url 'main:register' %}" style="background: #4CAF50; color: white; padding: 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; font-size: 1.1rem;">Register</a>
-              {% endif %}
-          </div>
-      </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <a href="{% url 'main:show_main' %}">Home</a>
+    <a href="{% url 'main:show_products' %}">My Products</a>
+    <a href="{% url 'main:show_about' %}">About</a>
+
+    <div class="mobile-user-section">
+      {% if user.is_authenticated %}
+        <div>Hi, {{ user.username }}</div>
+        <div>Last login: {{ last_login }}</div>
+        <a href="{% url 'main:logout' %}" class="logout-btn">Logout</a>
+      {% else %}
+        <a href="{% url 'main:login' %}" class="login-btn">Login</a>
+        <a href="{% url 'main:register' %}" class="register-btn">Register</a>
+      {% endif %}
+    </div>
   </div>
 </nav>
 
 <style>
-  /* Force desktop layout */
-  @media (min-width: 768px) {
-      .nav-links { display: flex !important; }
-      .user-section { display: flex !important; }
-      .mobile-menu-button { display: none !important; }
+/* Navbar basics */
+.navbar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 70px;
+  background: black;
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+}
+
+.navbar-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.navbar-brand h1 a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Desktop links & user section */
+.nav-links, .user-section {
+  display: none;
+}
+
+.nav-links a, .user-section a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+/* Mobile Hamburger */
+.mobile-menu-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.mobile-menu-button span {
+  display: block;
+  height: 2px;
+  background: white;
+  transition: 0.3s;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background: #1a1a1a;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu a {
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #333;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.mobile-menu a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.mobile-user-section {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+  gap: 1rem;
+}
+
+/* Hamburger animation */
+.mobile-menu-button.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-button.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-button.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Media query for desktop */
+@media (min-width: 768px) {
+  .nav-links, .user-section {
+    display: flex !important;
+    align-items: center;
   }
-  
-  body { padding-top: 80px !important; }
-  
-  .hidden {
-      display: none !important;
+
+  .mobile-menu-button, .mobile-menu {
+    display: none !important;
   }
-  
-  .mobile-menu a {
-      transition: background-color 0.3s;
-  }
-  
-  .mobile-menu a:hover {
-      background: rgba(255, 255, 255, 0.1) !important;
-  }
+}
+
+/* Body padding so content is not under navbar */
+body { padding-top: 80px; }
 </style>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
   const btn = document.querySelector(".mobile-menu-button");
   const menu = document.querySelector(".mobile-menu");
 
   btn.addEventListener("click", () => {
-    menu.classList.toggle("hidden");
+    btn.classList.toggle("active");
+    if(menu.style.maxHeight){
+      menu.style.maxHeight = null;
+    } else {
+      menu.style.maxHeight = menu.scrollHeight + "px";
+    }
   });
+});
 </script>
