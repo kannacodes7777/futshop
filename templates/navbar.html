@@ -1,177 +1,54 @@
-<nav class="navbar">
-  <div class="navbar-container">
+<nav class="fixed top-0 left-0 w-full bg-black h-[70px] flex items-center z-[9999] text-white font-sans">
+  <div class="w-full flex justify-between items-center px-4 md:px-6">
+    
     <!-- Brand -->
-    <div class="navbar-brand">
-      <h1><a href="{% url 'main:show_main' %}">Futshop</a></h1>
+    <div class="font-semibold text-lg">
+      <a href="{% url 'main:show_main' %}" class="text-white no-underline">Futshop</a>
     </div>
 
-    <!-- Desktop links -->
-    <div class="nav-links">
-      <a href="{% url 'main:show_main' %}">Main</a>
-      <a href="{% url 'main:show_about' %}">About</a>
-      <a href="{% url 'main:show_products' %}">Add Product</a>
+    <!-- Desktop Links -->
+    <div class="hidden md:flex space-x-6">
+      <a href="{% url 'main:show_main' %}" class="text-white hover:text-gray-300">Main</a>
+      <a href="{% url 'main:show_about' %}" class="text-white hover:text-gray-300">About</a>
+      <a href="{% url 'main:show_products' %}" class="text-white hover:text-gray-300">Add Product</a>
     </div>
 
-    <!-- User section -->
-    <div class="user-section">
+    <!-- Desktop User Section -->
+    <div class="hidden md:flex items-center space-x-4">
       {% if user.is_authenticated %}
-        <div>Hi, {{ user.username }}</div>
-        <a href="{% url 'main:logout' %}" class="logout-btn">Logout</a>
+        <span>Hi, {{ user.username }}</span>
+        <a href="{% url 'main:logout' %}" class="text-red-400 hover:text-red-600 font-medium">Logout</a>
       {% else %}
-        <a href="{% url 'main:login' %}" class="login-btn">Login</a>
-        <a href="{% url 'main:register' %}" class="register-btn">Register</a>
+        <a href="{% url 'main:login' %}" class="text-white hover:text-gray-300">Login</a>
+        <a href="{% url 'main:register' %}" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">Register</a>
       {% endif %}
     </div>
 
     <!-- Mobile Hamburger -->
-    <div class="mobile-menu-button">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <button class="mobile-menu-button flex flex-col justify-between w-6 h-5 md:hidden">
+      <span class="block h-0.5 bg-white transition-all"></span>
+      <span class="block h-0.5 bg-white transition-all"></span>
+      <span class="block h-0.5 bg-white transition-all"></span>
+    </button>
   </div>
 
   <!-- Mobile Menu -->
-  <div class="mobile-menu hidden">
-    <a href="{% url 'main:show_main' %}">Main</a>
-    <a href="{% url 'main:show_about' %}">About</a>
-    <a href="{% url 'main:show_products' %}">Add Product</a>
+  <div class="mobile-menu hidden flex-col bg-[#1a1a1a] absolute top-[70px] left-0 w-full z-[10000] md:hidden">
+    <a href="{% url 'main:show_main' %}" class="px-6 py-3 text-white border-b border-gray-700 hover:bg-gray-800">Main</a>
+    <a href="{% url 'main:show_about' %}" class="px-6 py-3 text-white border-b border-gray-700 hover:bg-gray-800">About</a>
+    <a href="{% url 'main:show_products' %}" class="px-6 py-3 text-white border-b border-gray-700 hover:bg-gray-800">Add Product</a>
 
-    <div class="mobile-user-section">
+    <div class="flex flex-col px-6 py-4 border-t border-gray-700 space-y-3">
       {% if user.is_authenticated %}
-        <div>Hi, {{ user.username }}</div>
-        <a href="{% url 'main:logout' %}" class="logout-btn">Logout</a>
+        <span>Hi, {{ user.username }}</span>
+        <a href="{% url 'main:logout' %}" class="text-red-400 hover:text-red-600 font-medium">Logout</a>
       {% else %}
-        <a href="{% url 'main:login' %}" class="login-btn">Login</a>
-        <a href="{% url 'main:register' %}" class="register-btn">Register</a>
+        <a href="{% url 'main:login' %}" class="text-white hover:text-gray-300">Login</a>
+        <a href="{% url 'main:register' %}" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-center">Register</a>
       {% endif %}
     </div>
   </div>
 </nav>
-
-<style>
-/* Navbar basics */
-.navbar {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  background: black;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  z-index: 9999;
-  color: white;
-  font-family: sans-serif;
-}
-
-.navbar-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1rem;
-}
-
-.navbar-brand h1 a {
-  color: white;
-  text-decoration: none;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.mobile-menu-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 25px;
-  height: 18px;
-  cursor: pointer;
-}
-
-.mobile-menu-button span {
-  display: block;
-  height: 2px;
-  background: white;
-  transition: 0.3s;
-}
-
-.nav-links, .user-section {
-  display: none;
-}
-
-.nav-links a, .user-section a {
-  color: white;
-  text-decoration: none;
-  margin-left: 1rem;
-  font-weight: 600;
-}
-
-.mobile-menu {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  background: #1a1a1a;
-  z-index: 10000;
-}
-
-.mobile-menu.hidden {
-  display: none;
-}
-
-.mobile-menu:not(.hidden) {
-  display: flex;
-  flex-direction: column;
-}
-
-.mobile-menu a {
-  color: white;
-  text-decoration: none;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid #333;
-  font-weight: 600;
-  transition: background 0.2s;
-}
-
-.mobile-menu a:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.mobile-user-section {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 1.5rem;
-  gap: 1rem;
-  border-top: 1px solid #333;
-}
-
-.mobile-menu-button.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.mobile-menu-button.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.mobile-menu-button.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
-
-/* DESKTOP: Hide mobile, show desktop nav */
-@media(min-width: 768px) {
-  .mobile-menu-button, .mobile-menu {
-    display: none !important;
-  }
-
-  .nav-links, .user-section {
-    display: flex !important;
-    align-items: center;
-  }
-}
-
-/* Body padding */
-body { padding-top: 80px; }
-</style>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -179,15 +56,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const menu = document.querySelector(".mobile-menu");
 
   btn.addEventListener("click", () => {
-    btn.classList.toggle("active");
     menu.classList.toggle("hidden");
+    btn.classList.toggle("active");
+  });
+
+  // Animate hamburger into "X"
+  btn.addEventListener("click", () => {
+    const spans = btn.querySelectorAll("span");
+    spans[0].classList.toggle("rotate-45");
+    spans[0].classList.toggle("translate-y-2");
+    spans[1].classList.toggle("opacity-0");
+    spans[2].classList.toggle("-rotate-45");
+    spans[2].classList.toggle("-translate-y-2");
   });
 
   // Close menu when clicking a link
   document.querySelectorAll('.mobile-menu a').forEach(link => {
     link.addEventListener('click', () => {
-      btn.classList.remove('active');
       menu.classList.add('hidden');
+      btn.classList.remove("active");
+      const spans = btn.querySelectorAll("span");
+      spans[0].classList.remove("rotate-45","translate-y-2");
+      spans[1].classList.remove("opacity-0");
+      spans[2].classList.remove("-rotate-45","-translate-y-2");
     });
   });
 });
