@@ -33,23 +33,23 @@
       </div>
   </div>
   
-  <!-- ADD THIS MOBILE MENU -->
-  <div class="mobile-menu" style="display: none; background: #1a1a1a; position: absolute; top: 100%; left: 0; width: 100%; text-align: center;">
-      <div class="mobile-menu-content" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-          <a href="{% url 'main:show_main' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600;">Home</a>
-          <a href="{% url 'main:show_products' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600;">My Products</a>
-          <a href="{% url 'main:show_about' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600;">About</a>
+  <!-- UPDATED MOBILE MENU -->
+  <div class="mobile-menu" style="display: none; background: #1a1a1a; position: fixed; top: 70px; left: 0; width: 100%; height: calc(100vh - 70px); z-index: 10000; overflow-y: auto;">
+      <div class="mobile-menu-content" style="padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
+          <a href="{% url 'main:show_main' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid #333;">Home</a>
+          <a href="{% url 'main:show_products' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid #333;">My Products</a>
+          <a href="{% url 'main:show_about' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid #333;">About</a>
           
-          <div style="border-top: 1px solid #333; padding-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+          <div style="border-top: 2px solid #333; padding-top: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
               {% if user.is_authenticated %}
                   <div style="text-align: center;">
-                      <div style="color: white; font-weight: 600;">Hi, {{ user.username }}</div>
-                      <div style="color: #ccc; font-size: 0.75rem;">Last login: {{ last_login }}</div>
+                      <div style="color: white; font-weight: 600; font-size: 1.1rem;">Hi, {{ user.username }}</div>
+                      <div style="color: #ccc; font-size: 0.9rem; margin-top: 0.5rem;">Last login: {{ last_login }}</div>
                   </div>
-                  <a href="{% url 'main:logout' %}" style="background: #dc3545; color: white; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: 600;">Logout</a>
+                  <a href="{% url 'main:logout' %}" style="background: #dc3545; color: white; padding: 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; font-size: 1.1rem;">Logout</a>
               {% else %}
-                  <a href="{% url 'main:login' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600;">Login</a>
-                  <a href="{% url 'main:register' %}" style="background: #4CAF50; color: white; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: 600;">Register</a>
+                  <a href="{% url 'main:login' %}" style="color: white; text-decoration: none; padding: 1rem; font-weight: 600; font-size: 1.1rem; text-align: center; border: 1px solid #555; border-radius: 6px;">Login</a>
+                  <a href="{% url 'main:register' %}" style="background: #4CAF50; color: white; padding: 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; font-size: 1.1rem;">Register</a>
               {% endif %}
           </div>
       </div>
@@ -66,14 +66,17 @@
   
   body { padding-top: 80px !important; }
   
-  /* Mobile menu hover effects */
+
+  .mobile-menu a {
+      transition: background-color 0.3s;
+  }
+  
   .mobile-menu a:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.1) !important;
   }
 </style>
 
 <script>
-  // Mobile menu functionality
   document.addEventListener('DOMContentLoaded', function() {
       const mobileMenuButton = document.querySelector('.mobile-menu-button');
       const mobileMenu = document.querySelector('.mobile-menu');
@@ -88,22 +91,23 @@
               }
           });
           
-          // Close menu when clicking outside
-          document.addEventListener('click', function() {
-              mobileMenu.style.display = 'none';
+          document.addEventListener('click', function(e) {
+              if (!e.target.closest('.navbar') && !e.target.closest('.mobile-menu')) {
+                  mobileMenu.style.display = 'none';
+              }
           });
           
-          // Prevent closing when clicking inside menu
-          mobileMenu.addEventListener('click', function(e) {
-              e.stopPropagation();
-          });
-          
-          // Close menu when clicking links
           const mobileLinks = document.querySelectorAll('.mobile-menu a');
           mobileLinks.forEach(link => {
               link.addEventListener('click', function() {
                   mobileMenu.style.display = 'none';
               });
+          });
+          
+          document.addEventListener('keydown', function(e) {
+              if (e.key === 'Escape') {
+                  mobileMenu.style.display = 'none';
+              }
           });
       }
   });
