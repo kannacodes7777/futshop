@@ -6,88 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Futshop{% endblock title %}</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            line-height: 1.6;
-            padding-top: 80px !important;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Hero Sections */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://hillary-elizabeth-futshop.pbp.cs.ui.ac.id/static/images/stadium.jpeg') no-repeat center center/cover;
-            color: #fff;
-            padding: 100px 0;
-            text-align: center;
-            min-height: 60vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .about-hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://hillary-elizabeth-futshop.pbp.cs.ui.ac.id/static/images/aboutUs.jpg') no-repeat center center/cover;
-            color: #fff;
-            padding: 100px 0;
-            text-align: center;
-            min-height: 60vh;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Product Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            padding: 2rem 0;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        /* Buttons */
-        .btn-primary {
-            background: #4CAF50;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-            font-weight: 600;
-        }
-
-        .btn-secondary {
-            background: #333;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-        }
-
-    </style>
-
+    <!-- ONLY LINK TO EXTERNAL CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
 </head>
 
