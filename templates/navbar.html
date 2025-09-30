@@ -1,100 +1,122 @@
-<nav class="fixed top-0 left-0 w-full bg-black h-[70px] flex items-center z-[9999] text-white font-sans">
-  <div class="w-full flex justify-between items-center px-4 md:px-6">
-    
-    <!-- Brand -->
-    <div class="font-semibold text-lg">
-      <a href="{% url 'main:show_main' %}" class="text-white no-underline">Futshop</a>
-    </div>
+<nav class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 shadow-sm z-50">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+          <!-- Brand -->
+          <div class="flex items-center">
+              <h1 class="text-xl font-semibold text-gray-900">
+                  <span class="text-green-600">Fut</span>shop
+              </h1>
+          </div>
 
-    <!-- Desktop Links -->
-    <div class="hidden md:flex space-x-6">
-      <a href="{% url 'main:show_main' %}" class="text-white hover:text-gray-300">Main</a>
-      <a href="{% url 'main:show_about' %}" class="text-white hover:text-gray-300">About</a>
-      <a href="{% url 'main:show_products' %}" class="text-white hover:text-gray-300">Add Product</a>
-    </div>
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-8">
+              <a href="{% url 'main:show_main' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                  Main
+              </a>
+              <a href="{% url 'main:show_about' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                  About
+              </a>
+              <a href="{% url 'main:show_products' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                  Add Product
+              </a>
+          </div>
 
-    <!-- Desktop User Section -->
-    <div class="hidden md:flex items-center space-x-4">
-      {% if user.is_authenticated %}
-        <span>Hi, {{ user.username }}</span>
-        <a href="{% url 'main:logout' %}" class="text-red-400 hover:text-red-600 font-medium">Logout</a>
-      {% else %}
-        <a href="{% url 'main:login' %}" class="text-white hover:text-gray-300">Login</a>
-        <a href="{% url 'main:register' %}" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">Register</a>
-      {% endif %}
-    </div>
+          <!-- Desktop User Section -->
+          <div class="hidden md:flex items-center space-x-6">
+              {% if user.is_authenticated %}
+                  <div class="text-right">
+                      <div class="text-sm font-medium text-gray-900">{{ user.username }}</div>
+                      <div class="text-xs text-gray-500">Last login: {{ last_login }}</div>
+                  </div>
+                  <a href="{% url 'main:logout' %}" class="text-red-600 hover:text-red-700 font-medium transition-colors">
+                      Logout
+                  </a>
+              {% else %}
+                  <a href="{% url 'main:login' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                      Login
+                  </a>
+                  <a href="{% url 'main:register' %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium transition-colors">
+                      Register
+                  </a>
+              {% endif %}
+          </div>
 
-    <!-- Mobile Hamburger -->
-    <button class="mobile-menu-button flex flex-col justify-between w-6 h-5 md:hidden">
-      <span class="block h-0.5 bg-white transition-all"></span>
-      <span class="block h-0.5 bg-white transition-all"></span>
-      <span class="block h-0.5 bg-white transition-all"></span>
-    </button>
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden flex items-center">
+              <button class="mobile-menu-button p-2 text-gray-600 hover:text-gray-900 transition-colors" onclick="toggleMenu()">
+                  <span class="sr-only">Open menu</span>
+                  <div class="w-6 h-6 flex flex-col justify-center items-center">
+                      <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+                      <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5"></span>
+                      <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+                  </div>
+              </button>
+          </div>
+      </div>
   </div>
 
   <!-- Mobile Menu -->
-  <div class="mobile-menu hidden flex-col bg-[#1a1a1a] absolute top-[70px] left-0 w-full z-[10000] md:hidden">
-    <a href="{% url 'main:show_main' %}" class="px-6 py-3 text-white border-b border-gray-700 hover:bg-gray-800">Main</a>
-    <a href="{% url 'main:show_about' %}" class="px-6 py-3 text-white border-b border-gray-700 hover:bg-gray-800">About</a>
-    <a href="{% url 'main:show_products' %}" class="px-6 py-3 text-white border-b border-gray-700 hover:bg-gray-800">Add Product</a>
+  <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <div class="px-6 py-4 space-y-4">
+          <!-- Mobile Navigation Links -->
+          <div class="space-y-1">
+              <a href="{% url 'main:show_main' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
+                  Main
+              </a>
+              <a href="{% url 'main:show_about' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
+                  About
+              </a>
+              <a href="{% url 'main:show_products' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
+                  Add Product
+              </a>
+          </div>
 
-    <div class="flex flex-col px-6 py-4 border-t border-gray-700 space-y-3">
-      {% if user.is_authenticated %}
-        <span>Hi, {{ user.username }}</span>
-        <a href="{% url 'main:logout' %}" class="text-red-400 hover:text-red-600 font-medium">Logout</a>
-      {% else %}
-        <a href="{% url 'main:login' %}" class="text-white hover:text-gray-300">Login</a>
-        <a href="{% url 'main:register' %}" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-center">Register</a>
-      {% endif %}
-    </div>
+          <!-- Mobile User Section -->
+          <div class="border-t border-gray-200 pt-4">
+              {% if user.is_authenticated %}
+                  <div class="mb-4">
+                      <div class="font-medium text-gray-900">{{ user.username }}</div>
+                      <div class="text-sm text-gray-500">Last login: {{ last_login }}</div>
+                  </div>
+                  <a href="{% url 'main:logout' %}" class="block text-red-600 hover:text-red-700 font-medium py-3 transition-colors">
+                      Logout
+                  </a>
+              {% else %}
+                  <div class="space-y-3">
+                      <a href="{% url 'main:login' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
+                          Login
+                      </a>
+                      <a href="{% url 'main:register' %}" class="block bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded text-center transition-colors">
+                          Register
+                      </a>
+                  </div>
+              {% endif %}
+          </div>
+      </div>
   </div>
 </nav>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.querySelector(".mobile-menu-button");
-    const menu = document.querySelector(".mobile-menu");
-  
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation(); // prevent click from bubbling to document
-  
-      // Toggle menu
+function toggleMenu() {
+  const menu = document.getElementById("mobileMenu");
+  if (menu) {
       menu.classList.toggle("hidden");
-      btn.classList.toggle("active");
-  
-      // Animate hamburger into "X"
-      const spans = btn.querySelectorAll("span");
-      spans[0].classList.toggle("rotate-45");
-      spans[0].classList.toggle("translate-y-2");
-      spans[1].classList.toggle("opacity-0");
-      spans[2].classList.toggle("-rotate-45");
-      spans[2].classList.toggle("-translate-y-2");
-    });
-  
-    // Close menu when clicking outside
-    document.addEventListener("click", (event) => {
-      if (!event.target.closest("nav")) {
-        if (!menu.classList.contains("hidden")) menu.classList.add("hidden");
-        if (btn.classList.contains("active")) {
-          const spans = btn.querySelectorAll("span");
-          spans[0].classList.remove("rotate-45","translate-y-2");
-          spans[1].classList.remove("opacity-0");
-          spans[2].classList.remove("-rotate-45","-translate-y-2");
-          btn.classList.remove("active");
-        }
-      }
-    });
-  
-    // Close menu when clicking a link
-    document.querySelectorAll('.mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (!menu.classList.contains("hidden")) menu.classList.add("hidden");
-        const spans = btn.querySelectorAll("span");
-        spans[0].classList.remove("rotate-45","translate-y-2");
-        spans[1].classList.remove("opacity-0");
-        spans[2].classList.remove("-rotate-45","-translate-y-2");
-        btn.classList.remove("active");
-      });
-    });
+  }
+}
+
+// Close menu when clicking outside
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("mobileMenu");
+  if (menu && !e.target.closest("nav") && !menu.classList.contains("hidden")) {
+      menu.classList.add("hidden");
+  }
+});
+
+// Close menu when clicking links
+document.querySelectorAll('#mobileMenu a').forEach(link => {
+  link.addEventListener('click', () => {
+      const menu = document.getElementById("mobileMenu");
+      if (menu) menu.classList.add("hidden");
   });
-  </script>  
+});
+</script>
