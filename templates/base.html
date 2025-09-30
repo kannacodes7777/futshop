@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Futshop{% endblock title %}</title>
 
-    <!-- ONLY LINK TO EXTERNAL CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
 </head>
 
@@ -22,5 +20,34 @@
 
     <footer>
     </footer>
+
+    <!-- ADD THIS SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('active');
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!event.target.closest('.navbar-container')) {
+                        mobileMenu.classList.remove('active');
+                    }
+                });
+                
+                // Close menu when clicking a link
+                const mobileLinks = document.querySelectorAll('.mobile-menu a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
