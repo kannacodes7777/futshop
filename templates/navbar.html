@@ -32,7 +32,7 @@
   </div>
 
   <!-- Mobile Menu -->
-  <div class="mobile-menu">
+  <div class="mobile-menu hidden">
     <a href="{% url 'main:show_main' %}">Main</a>
     <a href="{% url 'main:show_about' %}">About</a>
     <a href="{% url 'main:show_products' %}">Add Product</a>
@@ -75,21 +75,10 @@
 .navbar-brand h1 a {
   color: white;
   text-decoration: none;
-}
-
-/* Desktop links and user section hidden on mobile */
-.nav-links, .user-section {
-  display: none;
-}
-
-.nav-links a, .user-section a {
-  color: white;
-  text-decoration: none;
-  margin-left: 1rem;
+  font-size: 1.25rem;
   font-weight: 600;
 }
 
-/* Hamburger */
 .mobile-menu-button {
   display: flex;
   flex-direction: column;
@@ -106,18 +95,33 @@
   transition: 0.3s;
 }
 
-/* Mobile Menu */
+.nav-links, .user-section {
+  display: none;
+}
+
+.nav-links a, .user-section a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1rem;
+  font-weight: 600;
+}
+
 .mobile-menu {
   position: fixed;
   top: 70px;
   left: 0;
   width: 100%;
-  max-height: 0;
-  overflow: hidden;
   background: #1a1a1a;
-  flex-direction: column;
-  transition: max-height 0.3s ease-in-out;
   z-index: 10000;
+}
+
+.mobile-menu.hidden {
+  display: none;
+}
+
+.mobile-menu:not(.hidden) {
+  display: flex;
+  flex-direction: column;
 }
 
 .mobile-menu a {
@@ -138,9 +142,9 @@
   flex-direction: column;
   padding: 1rem 1.5rem;
   gap: 1rem;
+  border-top: 1px solid #333;
 }
 
-/* Hamburger animation */
 .mobile-menu-button.active span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
@@ -153,15 +157,15 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Desktop styles */
+/* DESKTOP: Hide mobile, show desktop nav */
 @media(min-width: 768px) {
+  .mobile-menu-button, .mobile-menu {
+    display: none !important;
+  }
+
   .nav-links, .user-section {
     display: flex !important;
     align-items: center;
-  }
-
-  .mobile-menu-button, .mobile-menu {
-    display: none !important;
   }
 }
 
@@ -176,18 +180,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btn.addEventListener("click", () => {
     btn.classList.toggle("active");
-    if(menu.style.maxHeight){
-      menu.style.maxHeight = null;
-    } else {
-      menu.style.maxHeight = menu.scrollHeight + "px";
-    }
+    menu.classList.toggle("hidden");
   });
 
-  // Optional: close menu when clicking a link
+  // Close menu when clicking a link
   document.querySelectorAll('.mobile-menu a').forEach(link => {
     link.addEventListener('click', () => {
       btn.classList.remove('active');
-      menu.style.maxHeight = null;
+      menu.classList.add('hidden');
     });
   });
 });
