@@ -218,4 +218,20 @@ Fungsi utamanya adalah memvalidasi kredensial yang dimasukkan oleh pengguna. Ket
    b. Grid Layout: digunakan untuk layout dua dimensi (baris dan kolom). Berguna untuk halaman daftar produk, membuat card-product tersusun rapi.
 
 5. Implementasi Checklist Step-by-Step
-a. Menambahkan fungsi hapus dan edit product
+   a. Implementasikan fungsi untuk menghapus dan mengedit product
+      1. Edit Product:
+         1. Membuat edit_product.html yang menggunakan ProductForm dari Django untuk semua field sesuai model (name, price, description, thumbnail, category, stock, rating, brand, is_featured).
+         2. Form ini sudah mengikat instance product, sehingga ketika user menekan Save Changes, data di-update secara otomatis.
+         3. View edit_product menangani POST request dan melakukan redirect ke halaman detail product setelah berhasil disimpan.
+      2. Delete Product:
+         1. Membuat view delete_product yang menerima POST request.
+         2. Pada product detail page, tombol delete memunculkan modal konfirmasi menggunakan JavaScript sebelum melakukan delete.
+         3. Jika user menekan "Delete" di modal, product akan dihapus, dan user bisa di-redirect kembali sesuai kebutuhan (misal ke daftar product).
+   b. Kustomisasi desain halaman menggunakan Tailwind CSS
+      1. Halaman login & register: Membuat form dengan input field dan tombol bergaya modern (rounded corners, hover effect, spacing, fokus highlight).
+      2. Halaman tambah product & edit product: Menggunakan form.as_p dengan styling Tailwind untuk form input, textarea, select, dan file upload. Tombol “Save Changes” dan “Cancel” diberi warna kontras (green untuk save, gray untuk cancel).
+      3. Halaman detail product: Memisahkan bagian image dan info product menggunakan flex layout. Menambahkan tombol Edit dan Delete, dengan modal konfirmasi untuk delete. Responsive: layout menyesuaikan lebar layar menggunakan Tailwind flex-wrap dan min-w-[400px].
+      4. Halaman daftar product (All Products): Jika tidak ada product, menampilkan pesan “Belum ada product yang terdaftar” dan placeholder image.Jika ada product, menggunakan card layout untuk menampilkan image, name, category, price, dan tombol “View Details”. Tombol edit & delete ditambahkan pada setiap card untuk user yang membuat product. Grid layout responsive menggunakan Tailwind flex-wrap dan gap antar card.
+   c. Navbar yang responsive
+      1. Desktop: Navbar horizontal dengan logo di kiri, link menu di kanan.
+      2. Mobile: Navbar menyembunyikan menu, menampilkan tombol hamburger. Ketika tombol diklik, menu muncul di bawah secara vertikal. Menggunakan Tailwind classes seperti hidden, flex, md:flex untuk responsive control. Menambahkan animasi/transition untuk menu mobile agar lebih smooth.
