@@ -1,85 +1,75 @@
 {% extends 'base.html' %}
 {% block title %}{{ product.name }} - Futshop{% endblock title %}
 
-{% block extra_styles %}
-<style>
-    .detail-section {
-        padding: 60px 0;
-        background-color: #fff;
-    }
-    .detail-container {
-        display: flex;
-        gap: 40px;
-        flex-wrap: wrap;
-    }
-    .product-image {
-        flex: 1 1 400px;
-    }
-    .product-image img {
-        width: 100%;
-        border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .product-info {
-        flex: 1 1 400px;
-    }
-    .product-info h3 {
-        font-family: 'Archivo Black', sans-serif;
-        font-size: 2.5rem;
-        margin-bottom: 10px;
-    }
-    .product-info .brand {
-        font-size: 1.2rem;
-        color: #777;
-        margin-bottom: 20px;
-    }
-    .product-info .price {
-        font-size: 2rem;
-        color: #4CAF50;
-        margin-bottom: 20px;
-        font-weight: bold;
-    }
-    .product-info .details {
-        margin-top: 20px;
-        border-top: 1px solid #eee;
-        padding-top: 20px;
-    }
-    .product-info .details p {
-        margin-bottom: 10px;
-        font-size: 1.1rem;
-    }
-    .product-info .details p strong {
-        display: inline-block;
-        min-width: 100px;
-    }
-</style>
-{% endblock extra_styles %}
-
 {% block content %}
 <main>
-    <section class="detail-section">
-        <div class="container">
-            <div class="detail-container">
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap gap-10">
 
-                <div class="product-image">
-                    <img src="{{ product.thumbnail }}" alt="{{ product.name }}">
+                <!-- Product Image -->
+                <div class="flex-1 min-w-[400px]">
+                    <img src="{{ product.thumbnail }}" alt="{{ product.name }}" class="w-full rounded-lg shadow-lg">
                 </div>
 
-                <div class="product-info">
-                    <h3>{{ product.name }}</h3>
+                <!-- Product Info -->
+                <div class="flex-1 min-w-[400px]">
+                    <h3 class="font-['Archivo_Black'] text-4xl mb-2">{{ product.name }}</h3>
+                    <p class="text-lg text-gray-600 mb-5">By the brand {{ product.brand }}</p>
+                    <p class="text-3xl font-bold text-green-500 mb-5">IDR {{ product.price }}</p>
 
-                    <p class="brand">By the brand {{ product.brand }}</p>
-                    <p class="price">IDR {{ product.price }}</p>
+                    <h4 class="text-xl font-semibold mb-2">Description</h4>
+                    <p class="mb-5">{{ product.description }}</p>
 
-                    <h4>Description</h4>
-                    <p>{{ product.description }}</p>
-                    
-                    <div class="details">
-                        <p><strong>Category:</strong> {{ product.category }}</p>
-                        <p><strong>Stock:</strong> {{ product.stock }}</p>
-                        <p><strong>Rating:</strong> {{ product.rating }} / 5.0</p>
-                        <p><strong>Added by:</strong> {{ product.user.username }}</p>
+                    <div class="border-t border-gray-200 pt-5 space-y-2">
+                        <p><strong class="inline-block w-24">Category:</strong> {{ product.category }}</p>
+                        <p><strong class="inline-block w-24">Stock:</strong> {{ product.stock }}</p>
+                        <p><strong class="inline-block w-24">Rating:</strong> {{ product.rating }} / 5.0</p>
+                        <p><strong class="inline-block w-24">Added by:</strong> {{ product.user.username }}</p>
                     </div>
+
+                    {% if user.is_authenticated and user == product.user %}
+                    <!-- Edit/Delete Buttons -->
+                    <div class="flex gap-4 mt-8">
+                        <a href="{% url 'main:edit_product' product.id %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium transition">Edit</a>
+
+                        <button type="button" id="delete-button" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-medium transition">Delete</button>
+                    </div>
+
+                    <!-- Delete Confirmation Modal -->
+                    <div id="delete-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+                        <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
+                            <h3 class="text-lg font-semibold mb-4">Are you sure?</h3>
+                            <p class="mb-6">This action cannot be undone. Do you really want to delete this product?</p>
+                            <div class="flex justify-center gap-4">
+                                <button id="cancel-delete" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">Cancel</button>
+                                <form id="delete-product-form" method="POST" action="{% url 'main:delete_product' product.id %}">
+                                    {% csrf_token %}
+                                    <button id="confirm-delete" type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const deleteButton = document.getElementById('delete-button');
+                        const modal = document.getElementById('delete-modal');
+                        const cancelButton = document.getElementById('cancel-delete');
+
+                        deleteButton.addEventListener('click', () => {
+                            modal.classList.remove('hidden');
+                            modal.classList.add('flex');
+                        });
+
+                        cancelButton.addEventListener('click', () => {
+                            modal.classList.add('hidden');
+                            modal.classList.remove('flex');
+                        });
+                    });
+                    </script>
+                    {% endif %}
+
                 </div>
             </div>
         </div>

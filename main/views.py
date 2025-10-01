@@ -128,3 +128,28 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+def edit_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    
+    if request.user != product.user:
+        return redirect('main:show_main')
+    
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            updated_product = form.save(commit=False)
+            updated_product.is_featured = 'is_featured' in request.POST
+            updated_product.save()
+            return redirect('main:product_detail', pk=product.pk)
+    else:
+        form = ProductForm(instance=product)
+    
+    return render(request, 'edit_product.html', {'form': form, 'product': product})
+
+
+def delete_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.user == product.user and request.method == "POST":
+        product.delete()
+    return redirect('main:show_products')

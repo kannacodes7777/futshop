@@ -184,3 +184,38 @@ Fungsi utamanya adalah memvalidasi kredensial yang dimasukkan oleh pengguna. Ket
 6. Menambahkan 2 user dan masing-masing user mempunyai 3 data dummy dengan bukti screenshoot:
    1. ![User1](/assets/User1.png)
    2. ![Get XML](/assets/User2.png)
+
+**Pertanyaan Tugas 5**
+1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+3. Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+4. Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+
+**Jawaban Tugas 5**
+1. Urutan prioritas CSS selector (dari tertinggi ke terendah):
+   a. !important - Mengabaikan semua spesifisitas lain
+   b. Inline styles (style="") - Spesifisitas 1000
+   c. ID selector (#id) - Spesifisitas 100
+   d. Class/Attribute/Pseudo-class (.class, [type], :hover) - Spesifisitas 10
+   e. Element/Pseudo-element (div, ::before) - Spesifisitas 1
+   f. Universal selector (*) - Spesifisitas 0
+
+2. Responsive design menjadi konsep yang penting dalam pengembangan aplikasi web, karena beberapa hal:
+   a. User Experience: Pengalaman konsisten di semua device
+   b. Maintenance: Satu codebase untuk semua platform
+   c. Market Reach: 60%+ traffic web berasal dari mobile
+   Contoh aplikasi yang:
+   a. Responsive: Google, Twitter, Instagram Web – tampilan menyesuaikan ukuran layar, navigasi tetap mudah diakses.
+   b. Tidak responsive: Situs lama e-commerce yang hanya untuk desktop, menu dan gambar tidak menyesuaikan ukuran layar, sulit digunakan di mobile.
+
+3. Perbedaan antara margin, border, dan padding adalah:
+   a. Margin: Ruang di luar elemen, memisahkan elemen dengan elemen lain.
+   b. Border: Garis di sekitar elemen. Bisa diatur warna, tebal, dan tipe garis.
+   c. Padding: Ruang di dalam elemen, antara konten dengan border.
+4. Konsep flexbox dan grid layout:
+   a. Flexbox: digunakan untuk mengatur layout dalam satu dimensi (baris atau kolom). Berguna untuk membuat navbar, tombol, atau card yang sejajar dan mudah diatur jaraknya.
+   b. Grid Layout: digunakan untuk layout dua dimensi (baris dan kolom). Berguna untuk halaman daftar produk, membuat card-product tersusun rapi.
+
+5. Implementasi Checklist Step-by-Step
+a. Menambahkan fungsi hapus dan edit product
