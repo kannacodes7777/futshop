@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- TAILWIND MUST BE FIRST -->
+    <title>{% block title %}Futshop{% endblock title %}</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <title>{% block title %}Futshop{% endblock title %}</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
@@ -20,60 +20,34 @@
     <main class="pt-[80px]">
         {% block content %}
         {% endblock content %}
-    </main>
+        </main>
 
     <footer>
     </footer>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script src="{% static 'js/navbar.js' %}"></script> 
+
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            console.log("Script loaded - testing Tailwind");
-            
-            const btn = document.querySelector(".mobile-menu-button");
-            const menu = document.querySelector(".mobile-menu");
-
-            console.log("Button:", btn);
-            console.log("Menu:", menu);
-
-            if (btn && menu) {
-                btn.addEventListener("click", (e) => {
-                    console.log("Hamburger clicked!");
-                    e.stopPropagation();
-                    menu.classList.toggle("hidden");
-
-                    // Test if Tailwind classes work
-                    const spans = btn.querySelectorAll("span");
-                    spans[0].classList.toggle("rotate-45");
-                    spans[0].classList.toggle("translate-y-2");
-                    spans[1].classList.toggle("opacity-0");
-                    spans[2].classList.toggle("-rotate-45");
-                    spans[2].classList.toggle("-translate-y-2");
-                    
-                    console.log("Menu hidden?", menu.classList.contains("hidden"));
-                });
-
-                document.addEventListener("click", (event) => {
-                    if (!event.target.closest("nav")) {
-                        menu.classList.add("hidden");
-                        resetHamburger(btn);
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
                     }
-                });
-
-                document.querySelectorAll(".mobile-menu a").forEach(link => {
-                    link.addEventListener("click", () => {
-                        menu.classList.add("hidden");
-                        resetHamburger(btn);
-                    });
-                });
-
-                function resetHamburger(btn) {
-                    const spans = btn.querySelectorAll("span");
-                    spans[0].classList.remove("rotate-45","translate-y-2");
-                    spans[1].classList.remove("opacity-0");
-                    spans[2].classList.remove("-rotate-45","-translate-y-2");
                 }
             }
-        });
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
     </script>
+    
+    {% block scripts %}
+    {% endblock scripts %}
 </body>
 </html>

@@ -1,22 +1,113 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Add New Product - Futshop{% endblock title %}
 
 {% block content %}
-<main>
+<main class="py-12 bg-gray-50 min-h-screen">
     <section class="form-section">
-        <div class="container">
-            <h3>Add a New Product</h3>
+        <div class="container mx-auto px-4 md:px-6">
+            <h3 class="text-3xl font-bold mb-8 text-gray-800 text-center">Add a New Product</h3>
 
-            <form method="POST">
-                {% csrf_token %}  <!-- CSRF token untuk keamanan -->
+            <form id="add-form" class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto space-y-6">
+                {% csrf_token %}
                 
-                {{ form.as_p }}
+                {% for field in form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">
+                            {{ field.label }}
+                        </label>
+                        
+                        {% if field.name == 'brand' or field.name == 'category' %}
+                            <select name="{{ field.name }}" id="{{ field.id_for_label }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5">
+                                {% for value, text in field.field.choices %}
+                                    <option value="{{ value }}">{{ text }}</option>
+                                {% endfor %}
+                            </select>
+                        {% elif field.name == 'is_featured' %}
+                            <div class="flex items-center pt-2">
+                                <input id="{{ field.id_for_label }}" name="{{ field.name }}" type="checkbox" class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
+                                <label for="{{ field.id_for_label }}" class="ml-2 text-sm text-gray-700">Is this a featured product?</label>
+                            </div>
+                        {% else %}
+                            <input 
+                                type="{{ field.field.widget.input_type }}" 
+                                name="{{ field.name }}" 
+                                id="{{ field.id_for_label }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                                {% if field.field.required %}required{% endif %}
+                            >
+                        {% endif %}
+                        
+                        {% if field.errors %}
+                            <div class="text-red-500 text-xs mt-1">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <div id="error-container" class="text-red-600 mt-4 text-left text-sm"></div>
 
-                <button type="submit" class="btn-primary">Add Product</button>
+                <button type="submit" class="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors">
+                    Add Product
+                </button>
             </form>
             
         </div>
     </section>
 </main>
 {% endblock content %}
+
+
+{% block scripts %}
+<script src="{% static 'js/toast.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const addForm = document.getElementById('add-form');
+    const errorContainer = document.getElementById('error-container');
+
+    addForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorContainer.innerHTML = '';
+
+        const formData = new FormData(addForm);
+        const url = "{% url 'main:ajax_create_product' %}";
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                },
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                showToast(result.message, 'success');
+                setTimeout(() => {
+                    window.location.href = "{% url 'main:product_page' %}";
+                }, 1500);
+            } else {
+                if (result.errors) {
+                    let errorHtml = '<ul>';
+                    for (const field in result.errors) {
+                        result.errors[field].forEach(error => {
+                            errorHtml += `<li>${field}: ${error}</li>`;
+                        });
+                    }
+                    errorHtml += '</ul>';
+                    errorContainer.innerHTML = errorHtml;
+                } else {
+                    errorContainer.textContent = result.message || 'An unknown error occurred.';
+                }
+            }
+        } catch (error) {
+            errorContainer.textContent = 'A network error occurred. Please try again.';
+        }
+    });
+});
+</script>
+{% endblock scripts %}

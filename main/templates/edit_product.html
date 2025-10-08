@@ -1,25 +1,112 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Edit {{ product.name }} - Futshop{% endblock title %}
 
 {% block content %}
-<section class="py-12 bg-gray-50 min-h-screen">
-  <div class="container mx-auto px-4 md:px-6">
-    <h2 class="text-3xl font-bold mb-8 text-gray-800">Edit Product: {{ product.name }}</h2>
-    
-    <form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
-      {% csrf_token %}
-      {{ form.as_p }}
+<main class="py-12 bg-gray-50 min-h-screen">
+    <section class="form-section">
+        <div class="container mx-auto px-4 md:px-6">
+            <h3 class="text-3xl font-bold mb-8 text-gray-800 text-center">Edit: {{ product.name }}</h3>
 
-      <div class="flex items-center gap-4 mt-4">
-        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-semibold">
-          Save Changes
-        </button>
-        <a href="{% url 'main:product_detail' product.pk %}" class="text-gray-600 hover:text-gray-800 font-medium">
-          Cancel
-        </a>
-      </div>
-    </form>
-  </div>
-</section>
+            <form id="edit-form" class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto space-y-6">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900">
+                            {{ field.label }}
+                        </label>
+                        
+                        {% if field.name == 'brand' or field.name == 'category' %}
+                            <select name="{{ field.name }}" id="{{ field.id_for_label }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5">
+                                {% for value, text in field.field.choices %}
+                                    <option value="{{ value }}" {% if field.value == value %}selected{% endif %}>{{ text }}</option>
+                                {% endfor %}
+                            </select>
+                        {% elif field.name == 'is_featured' %}
+                            <div class="flex items-center pt-2">
+                                {{ field }}
+                                <label for="{{ field.id_for_label }}" class="ml-2 text-sm text-gray-700">Is this a featured product?</label>
+                            </div>
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                        
+                        {% if field.errors %}
+                            <div class="text-red-500 text-xs mt-1">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <div id="error-container" class="text-red-600 mt-4 text-left text-sm"></div>
+
+                <div class="flex items-center gap-4 mt-6">
+                    <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors">
+                        Save Changes
+                    </button>
+                    <a href="{% url 'main:product_detail' product.pk %}" class="flex-1 text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2.5 px-4 rounded-lg transition-colors">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+            
+        </div>
+    </section>
+</main>
 {% endblock content %}
+
+
+{% block scripts %}
+<script src="{% static 'js/toast.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const editForm = document.getElementById('edit-form');
+    const errorContainer = document.getElementById('error-container');
+
+    editForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorContainer.innerHTML = '';
+
+        const formData = new FormData(editForm);
+        const url = "{% url 'main:ajax_edit_product' product.pk %}";
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                },
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                showToast(result.message, 'success');
+                setTimeout(() => {
+                    window.location.href = "{% url 'main:product_detail' product.pk %}";
+                }, 1500);
+            } else {
+                if (result.errors) {
+                    let errorHtml = '<ul>';
+                    for (const field in result.errors) {
+                        result.errors[field].forEach(error => {
+                            errorHtml += `<li>${field}: ${error}</li>`;
+                        });
+                    }
+                    errorHtml += '</ul>';
+                    errorContainer.innerHTML = errorHtml;
+                } else {
+                    errorContainer.textContent = result.message || 'An unknown error occurred.';
+                }
+            }
+        } catch (error) {
+            errorContainer.textContent = 'A network error occurred. Please try again.';
+        }
+    });
+});
+</script>
+{% endblock scripts %}

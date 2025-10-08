@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}{{ product.name }} - Futshop{% endblock title %}
 
 {% block content %}
-<main>
-    <section class="bg-white py-16">
+<main class="py-12 bg-gray-50 min-h-screen">
+    <section>
         <div class="container mx-auto px-4">
             <div class="flex flex-wrap gap-10">
 
-                <!-- Product Image -->
                 <div class="flex-1 min-w-[400px]">
                     <img src="{{ product.thumbnail }}" alt="{{ product.name }}" class="w-full rounded-lg shadow-lg">
                 </div>
 
-                <!-- Product Info -->
                 <div class="flex-1 min-w-[400px]">
                     <h3 class="font-['Archivo_Black'] text-4xl mb-2">{{ product.name }}</h3>
                     <p class="text-lg text-gray-600 mb-5">By the brand {{ product.brand }}</p>
@@ -29,50 +29,84 @@
                     </div>
 
                     {% if user.is_authenticated and user == product.user %}
-                    <!-- Edit/Delete Buttons -->
                     <div class="flex gap-4 mt-8">
-                        <a href="{% url 'main:edit_product' product.id %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium transition">Edit</a>
-
+                        <a href="{% url 'main:edit_product_page' product.pk %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium transition">Edit</a>
                         <button type="button" id="delete-button" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-medium transition">Delete</button>
                     </div>
 
-                    <!-- Delete Confirmation Modal -->
                     <div id="delete-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
                         <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
                             <h3 class="text-lg font-semibold mb-4">Are you sure?</h3>
                             <p class="mb-6">This action cannot be undone. Do you really want to delete this product?</p>
                             <div class="flex justify-center gap-4">
                                 <button id="cancel-delete" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">Cancel</button>
-                                <form id="delete-product-form" method="POST" action="{% url 'main:delete_product' product.id %}">
+                                <form id="delete-product-form" method="POST" action="{% url 'main:delete_product' %}">
                                     {% csrf_token %}
                                     <button id="confirm-delete" type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Delete</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-                    <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                        const deleteButton = document.getElementById('delete-button');
-                        const modal = document.getElementById('delete-modal');
-                        const cancelButton = document.getElementById('cancel-delete');
-
-                        deleteButton.addEventListener('click', () => {
-                            modal.classList.remove('hidden');
-                            modal.classList.add('flex');
-                        });
-
-                        cancelButton.addEventListener('click', () => {
-                            modal.classList.add('hidden');
-                            modal.classList.remove('flex');
-                        });
-                    });
-                    </script>
                     {% endif %}
-
                 </div>
             </div>
         </div>
     </section>
 </main>
 {% endblock content %}
+
+
+{% block scripts %}
+<script src="{% static 'js/toast.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const deleteButton = document.getElementById('delete-button');
+    if (deleteButton) {
+        const modal = document.getElementById('delete-modal');
+        const cancelButton = document.getElementById('cancel-delete');
+        const deleteForm = document.getElementById('delete-product-form');
+
+        deleteButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        });
+
+        cancelButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+
+        deleteForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const url = deleteForm.action;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: '{{ product.pk }}' })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    modal.classList.add('hidden');
+                    showToast(data.message, 'success');
+                    setTimeout(() => {
+                        window.location.href = "{% url 'main:product_page' %}";
+                    }, 1500);
+                } else {
+                    showToast(data.message || 'An error occurred.', 'error');
+                }
+            } catch (error) {
+                showToast('A server error occurred.', 'error');
+            }
+        });
+    }
+});
+</script>
+{% endblock scripts %}

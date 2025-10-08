@@ -4,30 +4,76 @@
 {% block title %}Futshop - Your Football Store{% endblock title %}
 
 {% block content %}
-{% include 'navbar.html' %}
 
 <section class="hero">
     <div class="container">
         <h2>The Best Gear for The Best Game</h2>
         <p>Find authentic jerseys, boots, and equipment from your favorite clubs.</p>
-        <a href="#" class="btn-primary">Shop Now</a>
+        <a href="{% url 'main:product_page' %}" class="btn-primary">Shop Now</a>
     </div>
 </section>
 
 <section class="featured-products">
     <div class="container">
         <h3>All Featured Products</h3>
-        <div class="product-grid">
-            {% for product in products %}
-                <div class="product-card">
-                    <img src="{{ product.thumbnail }}" alt="{{ product.name }}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/222/FFF?text=Image';">
-                    <h4>{{ product.name }}</h4>
-                    <p class="category">{{ product.category }}</p>
-                    <p class="price">IDR {{ product.price }}</p>
-                    <a href="{% url 'main:product_detail' pk=product.pk %}" class="btn-secondary">View Details</a>
-                </div>
-            {% endfor %}
+        
+        <div id="loading-state" class="text-center py-12 hidden">
+            <p class="text-gray-500 text-lg">Loading products...</p>
+        </div>
+        <div id="error-state" class="text-center py-12 hidden">
+            <p class="text-red-600 text-lg">Failed to load products.</p>
+        </div>
+
+        <div id="featured-product-grid" class="product-grid">
         </div>
     </div>
 </section>
 {% endblock content %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const productGrid = document.getElementById('featured-product-grid');
+    const loadingState = document.getElementById('loading-state');
+    const errorState = document.getElementById('error-state');
+
+    async function fetchFeaturedProducts() {
+        loadingState.classList.remove('hidden');
+        errorState.classList.add('hidden');
+        productGrid.classList.add('hidden');
+
+        try {
+            const response = await fetch("{% url 'main:get_featured_products' %}");
+            if (!response.ok) throw new Error('Network response failed');
+            const data = await response.json();
+            
+            productGrid.innerHTML = '';
+            
+            if (data.status === 'success' && data.products.length > 0) {
+                data.products.forEach(product => {
+                    productGrid.insertAdjacentHTML('beforeend', `
+                        <div class="product-card">
+                            <img src="${product.thumbnail || 'https://placehold.co/600x400/222/FFF?text=Image'}" alt="${product.name}">
+                            <h4>${product.name}</h4>
+                            <p class="category">${product.category || 'N/A'}</p>
+                            <p class="price">IDR ${product.price}</p>
+                            <a href="/product/${product.id}/" class="btn-secondary">View Details</a>
+                        </div>
+                    `);
+                });
+                productGrid.classList.remove('hidden');
+            } else {
+                productGrid.innerHTML = '<p class="text-center text-gray-500 col-span-full">No featured products found.</p>';
+                productGrid.classList.remove('hidden');
+            }
+        } catch (error) {
+            errorState.classList.remove('hidden');
+        } finally {
+            loadingState.classList.add('hidden');
+        }
+    }
+
+    fetchFeaturedProducts();
+});
+</script>
+{% endblock scripts %}

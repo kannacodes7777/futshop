@@ -1,36 +1,85 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block meta %}
-<title>Register</title>
-{% endblock meta %}
+{% block title %}Register - Futshop{% endblock title %}
 
 {% block content %}
+<div class="flex items-center justify-center min-h-[calc(100vh-80px)] bg-gray-50 px-4 py-8">
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
+        <h2 class="text-3xl font-bold text-center text-gray-800">Create an Account</h2>
 
-<div class="centered-form-page">
-  
-  <div class="register-container">
-    <h1>Register</h1>
-  
-    <form method="POST">
-      {% csrf_token %}
-      <table>
-        {{ form.as_table }}
-        <tr>
-          <td></td>
-          <td><input class="btn-primary" type="submit" name="submit" value="Register" /></td>
-        </tr>
-      </table>
-    </form>
-  
-    {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </div>
-  
+        <div id="error-message-container" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+        </div>
+
+        <form id="register-form" class="space-y-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Sign up
+                </button>
+            </div>
+        </form>
+        <p class="text-sm text-center text-gray-600">
+            Already have an account? <a href="{% url 'main:login' %}" class="font-medium text-green-600 hover:underline">Sign in</a>
+        </p>
+    </div>
 </div>
-
 {% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/toast.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const registerForm = document.getElementById('register-form');
+    const errorContainer = document.getElementById('error-message-container');
+
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorContainer.classList.add('hidden');
+        errorContainer.innerHTML = '';
+
+        const formData = new FormData(registerForm);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch("{% url 'main:ajax_register' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': data.csrfmiddlewaretoken,
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                showToast(result.message, 'success');
+                setTimeout(() => {
+                    window.location.href = "{% url 'main:show_main' %}";
+                }, 1500);
+            } else {
+                if (result.errors) {
+                    let errorHtml = '<ul>';
+                    for (const field in result.errors) {
+                        result.errors[field].forEach(error => {
+                            errorHtml += `<li>${error.message || error}</li>`;
+                        });
+                    }
+                    errorHtml += '</ul>';
+                    errorContainer.innerHTML = errorHtml;
+                    errorContainer.classList.remove('hidden');
+                } else {
+                    errorContainer.textContent = result.message || 'An error occurred.';
+                    errorContainer.classList.remove('hidden');
+                }
+            }
+        } catch (error) {
+            errorContainer.textContent = 'A network error occurred. Please try again.';
+            errorContainer.classList.remove('hidden');
+        }
+    });
+});
+</script>
+{% endblock scripts %}
