@@ -9,7 +9,7 @@ from .models import Product
 from .forms import ProductForm
 import json
 
-
+@login_required(login_url='/login')
 def show_main(request):
     products = Product.objects.filter(is_featured=True)
     context = {

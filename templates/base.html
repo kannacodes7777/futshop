@@ -7,9 +7,7 @@
     <title>{% block title %}Futshop{% endblock title %}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
 </head>
@@ -20,14 +18,12 @@
     <main class="pt-[80px]">
         {% block content %}
         {% endblock content %}
-        </main>
+    </main>
 
     <footer>
     </footer>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
-    <script src="{% static 'js/navbar.js' %}"></script> 
 
     <script>
         function getCookie(name) {
@@ -47,7 +43,52 @@
         const csrftoken = getCookie('csrftoken');
     </script>
     
+    <script src="{% static 'js/navbar.js' %}"></script> 
+    <script src="{% static 'js/toast.js' %}"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        async function handleLogout(event) {
+            event.preventDefault();
+    
+            try {
+                const response = await fetch("{% url 'main:ajax_logout' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json'
+                    }
+                });
+    
+                const data = await response.json();
+    
+                if (data.status === 'success') {
+                    showToast(data.message);
+                    setTimeout(() => {
+                        window.location.href = "{% url 'main:login' %}";
+                    }, 1500);
+                } else {
+                    showToast(data.message || 'Logout failed.', false);
+                }
+            } catch (error) {
+                showToast('An error occurred during logout.', false);
+            }
+        }
+    
+        const logoutBtnDesktop = document.getElementById('logout-btn');
+        if (logoutBtnDesktop) {
+            logoutBtnDesktop.addEventListener('click', handleLogout);
+        }
+        
+        const logoutBtnMobile = document.querySelector('.logout-link-mobile');
+        if (logoutBtnMobile) {
+            logoutBtnMobile.addEventListener('click', handleLogout);
+        }
+    });
+    </script>
+
     {% block scripts %}
     {% endblock scripts %}
+
 </body>
 </html>
