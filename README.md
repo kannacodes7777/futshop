@@ -141,13 +141,13 @@ Fungsi utamanya adalah memvalidasi kredensial yang dimasukkan oleh pengguna. Ket
 
    a. Pencurian (Hijacking): Jika tidak melalui koneksi HTTPS, pihak ketiga bisa "menguping" dan mencuri cookie.
 
-   b. XSS (Cross-Site Scripting): Penyerang bisa menyuntikkan skrip di browser Anda untuk mencuri cookie.
+   b. XSS (Cross-Site Scripting): Penyerang bisa menyuntikkan skrip di browser pengguna untuk mencuri cookie.
 
-   c. CSRF (Cross-Site Request Forgery): Penyerang menipu Anda untuk melakukan tindakan di situs lain saat Anda sedang login.
+   c. CSRF (Cross-Site Request Forgery): Penyerang menipu pengguna untuk melakukan tindakan di situs lain saat pengguna sedang login.
 
 4b. Cara Django menangani risiko tersebut adalah dengan menyediakan fitur-fitur keamanan sebagai berikut:
 
-   a. CSRF Protection: Django memiliki perlindungan CSRF yang aktif secara default. Token {% csrf_token %} di dalam form memastikan bahwa request POST hanya datang dari situs Anda sendiri, bukan dari situs lain.
+   a. CSRF Protection: Django memiliki perlindungan CSRF yang aktif secara default. Token {% csrf_token %} di dalam form memastikan bahwa request POST hanya datang dari situs kita sendiri, bukan dari situs lain.
 
    b. HttpOnly Cookies: Django secara default mengatur session cookie sebagai HttpOnly. Ini berarti cookie tersebut tidak bisa diakses oleh JavaScript di sisi browser, yang secara drastis mengurangi risiko pencurian cookie melalui serangan XSS.
 
@@ -235,3 +235,59 @@ Fungsi utamanya adalah memvalidasi kredensial yang dimasukkan oleh pengguna. Ket
    c. Navbar yang responsive
       1. Desktop: Navbar horizontal dengan logo di kiri, link menu di kanan.
       2. Mobile: Navbar menyembunyikan menu, menampilkan tombol hamburger. Ketika tombol diklik, menu muncul di bawah secara vertikal. Menggunakan Tailwind classes seperti hidden, flex, md:flex untuk responsive control. Menambahkan animasi/transition untuk menu mobile agar lebih smooth.
+
+
+# Pertanyaan Tugas 6
+1.  Apa perbedaan antara synchronous request dan asynchronous request?
+2. Bagaimana AJAX bekerja di Django (alur request–response)?
+3. Apa keuntungan menggunakan AJAX dibandingkan render biasa di Django?
+4. Bagaimana cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django?
+5. Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
+
+# Jawaban Tugas 6
+## 1. Perbedaan Synchronous dan Asynchronous
+Synchronous Request (Sinkron) adalah permintaan yang memblokir. Saat sebuah permintaan dikirim, pengguna harus menunggu sampai server merespons dan halaman selesai dimuat ulang sebelum bisa melakukan hal lain.
+
+Asynchronous Request (Asinkron) adalah permintaan yang tidak memblokir. Permintaan dikirim di latar belakang, dan pengguna bisa terus berinteraksi dengan halaman web tanpa harus menunggu. Saat respons dari server tiba, hanya bagian tertentu dari halaman yang diperbarui.
+
+## 2. Alur Kerja AJAX di Django (alur request–response)
+   a. AJAX (Asynchronous JavaScript and XML) di Django bekerja dengan memisahkan proses pengambilan data dari presentasi halaman.
+
+   b. Aksi Pengguna: Pengguna melakukan sesuatu di halaman web, seperti menekan tombol "Like" atau mengisi form.
+
+   c. JavaScript Mengirim Request: Sebuah fungsi JavaScript dipicu. Alih-alih me-refresh seluruh halaman, JavaScript menggunakan fetch() untuk mengirim permintaan HTTP (seperti GET atau POST) ke sebuah URL khusus di server Django.
+
+   d. URL Django Merespons: urls.py di Django mencocokkan URL tersebut dengan sebuah view yang telah disiapkan untuk menangani permintaan AJAX.
+
+   e. View Django Memproses: View tersebut melakukan logika yang diperlukan (misalnya, menyimpan data ke database, mengambil produk) tetapi tidak me-render template HTML.
+
+   f. View Mengembalikan JSON: Sebagai gantinya, view mengembalikan data dalam format JSON (JavaScript Object Notation) menggunakan JsonResponse.
+
+   g. JavaScript Menerima JSON: JavaScript di browser menerima data JSON ini.
+
+   h. Update Halaman (DOM Manipulation): JavaScript kemudian menggunakan data tersebut untuk memperbarui bagian kecil dari halaman HTML secara langsung, tanpa perlu me-refresh.
+
+## 3. Keuntungan Menggunakan AJAX
+Menggunakan AJAX di Django memberikan beberapa keuntungan signifikan dibandingkan render biasa:
+
+Pengalaman Pengguna Lebih Baik: Website terasa lebih cepat dan responsif karena tidak ada lagi layar putih saat menunggu halaman dimuat ulang. Interaksi terasa instan, mirip seperti menggunakan aplikasi desktop.
+
+Mengurangi Beban Server & Bandwidth: Hanya data yang benar-benar dibutuhkan yang dikirim antara server dan browser, bukan seluruh halaman HTML. Ini membuat transfer data lebih efisien.
+
+Interaktivitas yang Lebih Kaya: Memungkinkan pembuatan fitur-fitur modern seperti live search (hasil pencarian muncul saat mengetik), infinite scroll (konten baru dimuat saat menggulir ke bawah), dan notifikasi real-time.
+
+## 4. Cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django
+Menggunakan CSRF (Cross-Site Request Forgery) Token: Ini adalah fitur keamanan terpenting. Setiap permintaan POST yang dikirim oleh AJAX wajib menyertakan CSRF token. JavaScript harus dikonfigurasi untuk membaca token dari halaman dan mengirimkannya dalam header permintaan. Ini memastikan bahwa permintaan tersebut sah dan berasal dari situs pengguna.
+
+Validasi di Sisi Server: Jangan pernah mempercayai data dari pengguna. Semua data yang dikirim melalui AJAX (username, password, dll.) harus divalidasi di view Django menggunakan Django Forms (AuthenticationForm, UserCreationForm) sebelum diproses lebih lanjut. Ini mencegah injeksi data berbahaya.
+
+Menggunakan HTTPS: Menggunakan HTTPS di server produksi agar semua komunikasi antara browser dan server terenkripsi, sehingga data sensitif seperti password tidak dapat disadap.
+
+## 5. Pengaruh AJAX pada User Experience (UX)
+AJAX secara dramatis meningkatkan pengalaman pengguna (UX) dengan cara berikut:
+
+Kecepatan yang Terasa (Perceived Speed): Karena halaman tidak pernah memuat ulang sepenuhnya, website terasa jauh lebih cepat. Pengguna mendapatkan umpan balik instan atas tindakan mereka, yang membuat mereka merasa lebih memegang kendali.
+
+Interaksi yang Mulus (Seamless Interaction): Memperbarui bagian-bagian kecil dari halaman menciptakan alur kerja yang tidak terputus. Pengguna tidak kehilangan konteks atau posisi mereka di halaman saat suatu aksi terjadi.
+
+Mengurangi Gangguan: Pengguna dapat terus membaca atau berinteraksi dengan konten lain sementara aplikasi menyimpan data atau mengambil informasi baru di latar belakang. Ini menciptakan pengalaman yang lebih lancar dan tidak mengganggu.
