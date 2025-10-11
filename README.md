@@ -179,7 +179,6 @@ Fungsi utamanya adalah memvalidasi kredensial yang dimasukkan oleh pengguna. Ket
       1. Di view login_user, setelah login(request, user) berhasil, saya membuat respons redirect.
       2. Saya mengatur cookie pada respons tersebut: response.set_cookie('last_login', formatted_time).
       3. Di view logout_user, saya menghapus cookie: response.delete_cookie('last_login').
-      4. Untuk menampilkannya di header (base.html), cara terbaik adalah dengan Context Processor. Saya membuat file main/context_processors.py, membuat fungsi yang membaca request.COOKIES.get('last_login'), dan mendaftarkannya di settings.py. Ini membuat variabel cookie tersedia di semua template, sehingga saya bisa menampilkannya di base.html.
 
 6. Menambahkan 2 user dan masing-masing user mempunyai 3 data dummy dengan bukti screenshoot:
    1. ![User1](/assets/User1.png)
