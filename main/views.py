@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from .models import Product
 from .forms import ProductForm
 import json
@@ -52,7 +53,6 @@ def register_page(request):
 def login_page(request):
     form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
-
 
 @login_required
 def get_products(request):
@@ -154,7 +154,6 @@ def ajax_edit_product(request, pk):
             return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
     
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
-    
 
 def ajax_register(request):
     if request.method == 'POST':
@@ -197,9 +196,13 @@ def show_xml(request):
     return HttpResponse(data, content_type="application/xml")
 
 def show_json(request):
-    data = serializers.serialize('json', Product.objects.all())
-    return HttpResponse(data, content_type="application/json")
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@login_required(login_url='/auth/login')
+def show_my_json(request):
+    data = Product.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def show_xml_by_id(request, id):
     product = Product.objects.filter(pk=id)
@@ -210,3 +213,31 @@ def show_json_by_id(request, id):
     product = Product.objects.filter(pk=id)
     data = serializers.serialize('json', product)
     return HttpResponse(data, content_type="application/json")
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+             return JsonResponse({"status": "error", "message": "Anda belum login!"}, status=401)
+        try:
+            data = json.loads(request.body)
+            
+            new_product = Product.objects.create(
+                user=request.user,
+                name=data["name"],
+                price=int(data["price"]),
+                description=data["description"],
+                thumbnail=data["thumbnail"],
+                category=data["category"],
+                brand=data["brand"],
+                stock=int(data["stock"]), 
+                rating=float(data["rating"]), 
+                is_featured=data["is_featured"],
+            )
+
+            new_product.save()
+            return JsonResponse({"status": "success"}, status=200)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+            
+    return JsonResponse({"status": "error"}, status=401)

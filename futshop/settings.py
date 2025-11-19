@@ -17,15 +17,14 @@ SECRET_KEY = 'django-insecure-%efqbw-tv@5&l0$235o$8*hs$5lmb92jm17vjlctg33+o(n@dy
 
 PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not PRODUCTION  # Auto-set DEBUG based on production status
+DEBUG = not PRODUCTION 
 
 
-# FIXED: Correct ALLOWED_HOSTS format
 ALLOWED_HOSTS = [
     "localhost", 
     "127.0.0.1", 
     "hillary-elizabeth-futshop.pbp.cs.ui.ac.id", 
+    "10.0.2.2",
 ]
 
 CSRF_TRUSTED_ORIGINS = ['https://hillary-elizabeth-futshop.pbp.cs.ui.ac.id']
@@ -41,17 +40,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'corsheaders',
+    'authentication',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ADDED: This is CRITICAL for static files
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'futshop.urls'
@@ -138,3 +140,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TIME_ZONE = 'Asia/Jakarta'
 USE_TZ = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
